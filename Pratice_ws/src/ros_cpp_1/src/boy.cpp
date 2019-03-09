@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include "ros_cpp_1/person.h"
+#include "ros_cpp_1/power.h"
 
 int main(int argc,char** argv){
 
@@ -18,20 +19,31 @@ int main(int argc,char** argv){
     person_msg.age=1;
 
     person_msg.state="working";
+    person_msg.sex=true;
 
-
-    ros::Publisher pub =nh.advertise<ros_cpp_1::person>("talk_session",1);// 话题发布者对象的初始化，<>里面写消息的类型，（）里面是话题名和消息队列的最大长度
+    ros::Publisher pub =nh.advertise<ros_cpp_1::person>("/mobile_base/xbot/state",1);// 话题发布者对象的初始化，<>里面写消息的类型，（）里面是话题名和消息队列的最大长度
     //队列是先进先出的数据结构，如果之前发布的数据已经将队列填满，这时候新来一条消息插到队列尾部，那么对头的旧的消息就会出对。通常设置队列的长度为一个较小的值
 
-    ros::Rate looprate=(1.0);//消息的发布频率
+    // //下面是测试安卓端写的msg
+    ros_cpp_1::power power_msg;//消息的定义方式
+    power_msg.off=false;
+    ros::Publisher pub2 =nh.advertise<ros_cpp_1::person>("mobile_base/commands/power",1);
 
+    ros::Publisher pub3 =nh.advertise<ros_cpp_1::power>("mobile_base",1);
+  
+    ros::Rate looprate=(1.0);//消息的发布频率
     while (ros::ok())//rosmaster 没有关闭时ros::ok()为true,反之为false
     {
+
 
         person_msg.now_time = ros::Time::now(); //ros::Time::now();
         //这里可以对消息进行相关的处理
         pub.publish(person_msg);//以定义的频率发布消息
-
+        ROS_INFO("i publish the msg 1topic ");
+        pub2.publish(person_msg);
+        ROS_INFO("i publish the msg 2 topic");
+        pub3.publish(power_msg);
+        ROS_INFO("i publish the msg 3 topic");
         looprate.sleep();//根据之前设定的频率，进行相应的延时
     }
     

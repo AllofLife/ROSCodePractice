@@ -48,6 +48,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
 add_message_files(FILES
+  power.msg
+  Battery.msg
   person.msg
 )
 
@@ -204,5 +206,13 @@ add_executable(boy
 )
 add_dependencies(boy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(boy
+  ${catkin_LIBRARIES}
+)
+
+add_executable(girl
+  src/girl.cpp
+)
+add_dependencies(girl ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(girl
   ${catkin_LIBRARIES}
 )

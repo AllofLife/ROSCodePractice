@@ -4,6 +4,7 @@ uint32 hight #hight of person
 float64 hight_as_mm # use mm to distro the hight of person
 time now_time #the msg send time 
 string content # the cheat content
+bool sex
 #std_msg/Header info #more information of the person
 #    bool sex
 #     bool married
